@@ -5,3 +5,7 @@ const getAll = async () => {
   const result = await pool.query('SELECT * FROM tipos');
   return result.rows;
 };
+
+export default {
+  getAll
+};
