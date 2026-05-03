@@ -1,8 +1,15 @@
 import express from 'express';
+import typeController from '../controller/typeController.js';
+
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({ message: 'Rota de tipos funcionando' });
-});
+router.get('/', typeController.getAll);
 
 export default router;
+
+
+
+
+
+
+
