@@ -5,4 +5,17 @@ const getAll = async (req, res) => {
   res.json(types);
 };
 
-export default { getAll };
+const create = async (req, res) => {
+  const { name } = req.body;
+
+  // validação simples
+  if (!name) {
+    return res.status(400).json({
+      message: 'O nome é obrigatório'
+    });
+  }
+  const newType = await typeModel.create(name);
+  res.status(201).json(newType);
+};
+
+export default { getAll, create };
