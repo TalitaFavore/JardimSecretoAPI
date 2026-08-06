@@ -25,8 +25,19 @@ const remove = async (id) => {
   return result.rows[0];
 };
 
+// Buscar planta pelo ID
+const getById = async (id) => {
+  const result = await pool.query(
+    'SELECT * FROM plantas WHERE id_plants = $1',
+    [id]
+  );
+
+  return result.rows[0];
+};
+
 export default {
   getAll,
   create,
-  remove
+  remove,
+  getById
 };
