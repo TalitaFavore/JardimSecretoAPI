@@ -35,9 +35,28 @@ const getById = async (id) => {
   return result.rows[0];
 };
 
+// Atualizar uma planta
+const update = async (id, nome, preco, quantidade, id_tipos) => {
+
+  const result = await pool.query(
+    `UPDATE plantas
+     SET nome = $1,
+         preco = $2,
+         quantidade = $3,
+         id_tipos = $4
+     WHERE id_plants = $5
+     RETURNING *`,
+    [nome, preco, quantidade, id_tipos, id]
+  );
+
+  return result.rows[0];
+};
+
+
 export default {
   getAll,
   create,
   remove,
-  getById
+  getById,
+  update
 };

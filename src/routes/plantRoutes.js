@@ -7,5 +7,6 @@ router.get('/', plantController.getAll);
 router.post('/', plantController.create);
 router.delete('/:id', plantController.remove);
 router.get('/:id', plantController.getById);
+router.put('/:id', plantController.update);
 
 export default router;

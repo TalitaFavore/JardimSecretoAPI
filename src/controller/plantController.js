@@ -45,9 +45,36 @@ const getById = async (req, res) => {
   res.status(200).json(plant);
 };
 
+const update = async (req, res) => {
+
+  const { nome, preco, quantidade, id_tipos } = req.body;
+
+  // Validação simples
+  if (!nome || !preco || !quantidade || !id_tipos) {
+    return res.status(400).json({
+      message: 'Todos os campos são obrigatórios'
+    });
+  }
+
+  const updatedPlant = await plantModel.update(
+    req.params.id, nome, preco, quantidade, id_tipos
+  );
+
+  // Verifica se a planta existe
+  if (!updatedPlant) {
+    return res.status(404).json({
+      message: 'Planta não encontrada'
+    });
+  }
+
+  res.status(200).json(updatedPlant);
+};
+
+
 export default {
   getAll,
   create,
   remove,
-  getById
+  getById,
+  update
 };
