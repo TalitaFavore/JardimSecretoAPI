@@ -50,6 +50,9 @@ router.post('/', typeController.create);
 //
 router.delete('/:id', typeController.remove);
 
+router.put('/:id', typeController.update);
+router.get('/:id', typeController.getById);
+
 // Exporta o router para que ele possa ser
 // utilizado dentro do app.js
 export default router;

@@ -12,11 +12,43 @@ const getAll = async (req, res) => {
   res.json(types);
 };
 
+
+// Função responsável por buscar um tipo pelo seu ID.
+// Geralmente é chamada por uma rota GET, por exemplo: GET /types/1
+const getById = async (req, res) => {
+
+  // req.params.id pega o ID informado na URL.
+  //
+  // Exemplo:
+  // GET /types/1
+  //
+  // req.params.id = 1
+  const id = req.params.id;
+
+  // Chama a função getById() da Model,
+  // passando o ID que queremos procurar.
+  const type = await typeModel.getById(id);
+
+  // Verifica se o tipo não foi encontrado.
+  // Caso não exista, retorna erro 404 (Not Found).
+  if (!type) {
+    return res.status(404).json({
+      message: 'Tipo não encontrado'
+    });
+  }
+
+  // Retorna os dados do tipo encontrado
+  // em formato JSON.
+  res.json(type);
+};
+
+
 // Função responsável por criar um novo tipo.
 // Geralmente é chamada por uma rota POST, por exemplo: POST /types
 const create = async (req, res) => {
 
   // Obtém o campo "name" enviado no corpo da requisição (body).
+  //
   // Exemplo:
   // {
   //   "name": "Cacto"
@@ -39,13 +71,60 @@ const create = async (req, res) => {
   res.status(201).json(newType);
 };
 
+
+// Função responsável por atualizar um tipo existente.
+// Geralmente é chamada por uma rota PUT, por exemplo: PUT /types/1
+const update = async (req, res) => {
+
+  // Obtém o novo nome enviado no corpo da requisição.
+  //
+  // Exemplo:
+  // {
+  //   "name": "Suculentas"
+  // }
+  const { name } = req.body;
+
+  // Pega o ID informado na URL.
+  //
+  // Exemplo:
+  // PUT /types/1
+  //
+  // req.params.id = 1
+  const id = req.params.id;
+
+  // Verifica se o nome foi enviado.
+  // Caso não exista, retorna erro 400 (Bad Request).
+  if (!name) {
+    return res.status(400).json({
+      message: 'O nome é obrigatório'
+    });
+  }
+
+  // Chama a Model para atualizar o tipo.
+  const updatedType = await typeModel.update(id, name);
+
+  // Verifica se o tipo existe.
+  // Se não existir, retorna erro 404 (Not Found).
+  if (!updatedType) {
+    return res.status(404).json({
+      message: 'Tipo não encontrado'
+    });
+  }
+
+  // Retorna os dados do tipo depois da atualização.
+  res.json(updatedType);
+};
+
+
 // Função responsável por excluir um tipo.
 // Geralmente é chamada por uma rota DELETE, por exemplo: DELETE /types/1
 const remove = async (req, res) => {
 
   // req.params.id pega o valor informado na URL.
+  //
   // Exemplo:
   // DELETE /types/1
+  //
   // req.params.id = 1
   const deletedType = await typeModel.remove(req.params.id);
 
@@ -66,10 +145,13 @@ const remove = async (req, res) => {
   });
 };
 
+
 // Exporta as funções da controller.
 // Assim elas podem ser utilizadas nas rotas.
 export default {
   getAll,
+  getById,
   create,
+  update,
   remove
 };
