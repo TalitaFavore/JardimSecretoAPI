@@ -70,11 +70,20 @@ const update = async (req, res) => {
   res.status(200).json(updatedPlant);
 };
 
+const search = async (req, res) => {
+  const { nome } = req.query;
+
+  const plants = await plantModel.search(nome);
+
+  res.json(plants);
+};
+
 
 export default {
   getAll,
   create,
   remove,
   getById,
-  update
+  update,
+  search
 };

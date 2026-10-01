@@ -28,7 +28,7 @@ const remove = async (id) => {
 // Buscar planta pelo ID
 const getById = async (id) => {
   const result = await pool.query(
-    'SELECT * FROM plantas WHERE id_plants = $1',
+    'SELECT * FROM plantas WHERE id_plantas = $1',
     [id]
   );
 
@@ -44,12 +44,23 @@ const update = async (id, nome, preco, quantidade, id_tipos) => {
          preco = $2,
          quantidade = $3,
          id_tipos = $4
-     WHERE id_plants = $5
+     WHERE id_plantas = $5
      RETURNING *`,
     [nome, preco, quantidade, id_tipos, id]
   );
 
   return result.rows[0];
+};
+
+const search = async (nome) => {
+  const result = await pool.query(
+    `SELECT *
+     FROM plantas
+     WHERE nome ILIKE $1`,
+    [`%${nome}%`]
+  );
+
+  return result.rows;
 };
 
 
@@ -58,5 +69,6 @@ export default {
   create,
   remove,
   getById,
-  update
+  update,
+  search
 };
