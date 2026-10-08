@@ -78,9 +78,39 @@ const search = async (req, res) => {
   res.json(plants);
 };
 
+const getSuculentas = async (req, res) => {
+  try {
+    const plantas = await plantModel.getSuculentas();
+
+    res.status(200).json(plantas);
+  } catch (error) {
+    console.error("Erro ao buscar suculentas:", error);
+
+    res.status(500).json({
+      message: "Erro ao buscar suculentas."
+    });
+  }
+};
+
+const getCactos = async (req, res) => {
+  try {
+    const plantas = await plantModel.getCactos();
+
+    res.status(200).json(plantas);
+  } catch (error) {
+    console.error("Erro ao buscar cactos:", error);
+
+    res.status(500).json({
+      message: "Erro ao buscar cactos."
+    });
+  }
+};
+
 
 export default {
   getAll,
+  getSuculentas,
+  getCactos,
   create,
   remove,
   getById,

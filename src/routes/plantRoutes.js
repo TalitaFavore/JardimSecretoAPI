@@ -4,6 +4,8 @@ import plantController from '../controller/plantController.js';
 const router = express.Router();
 
 router.get('/', plantController.getAll);
+router.get('/suculentas', plantController.getSuculentas);
+router.get('/cactos', plantController.getCactos);
 router.get('/search', plantController.search);
 router.post('/', plantController.create);
 router.delete('/:id', plantController.remove);
