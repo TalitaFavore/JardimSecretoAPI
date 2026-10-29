@@ -2,10 +2,11 @@ import pool from '../config/db.js';
 
 // Criar usuário
 const create = async (email, password) => {
+
   const result = await pool.query(
     `INSERT INTO usuarios (email, password)
      VALUES ($1, $2)
-     RETURNING id_usuarios, email`,
+     RETURNING id_usuarios, email, role`,
     [email, password]
   );
 
